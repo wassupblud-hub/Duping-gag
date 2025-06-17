@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loading Please Wait...</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0a0a0a;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .loader-container {
+            text-align: center;
+            max-width: 400px;
+            padding: 20px;
+        }
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid rgba(255,255,255,0.1);
+            border-top: 6px solid #2ecc71;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            animation: spin 1.5s linear infinite;
+        }
+        .progress-container {
+            height: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 5px;
+            margin: 25px 0;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #2ecc71, #3498db);
+            transition: width 0.5s ease;
+        }
+        .loading-text {
+            margin: 15px 0;
+            font-size: 18px;
+            min-height: 25px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader-container">
+        <div class="spinner"></div>
+        <h2>Initializing System...</h2>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+        <div class="loading-text" id="loadingText">Checking dependencies...</div>
+    </div>
+
+    <script>
+        // Fake progress bar
+        const progress = document.getElementById('progress');
+        const loadingText = document.getElementById('loadingText');
+        let currentProgress = 0;
+        
+        // Random loading messages
+        const messages = [
+            "Optimizing assets...",
+            "Loading textures...",
+            "Compiling shaders...",
+            "Connecting to server...",
+            "Almost there...",
+            "Just a moment longer...",
+            "Finalizing setup..."
+        ];
+
+        function updateLoader() {
+            // Slowly increase progress (but never reach 100%)
+            currentProgress += Math.random() * 3;
+            if (currentProgress > 97) currentProgress = 97;
+            progress.style.width = currentProgress + '%';
+            
+            // Change loading message randomly
+            if (Math.random() > 0.7) {
+                loadingText.textContent = messages[Math.floor(Math.random() * messages.length)];
+            }
+            
+            // Random speed fluctuations
+            const delay = 500 + Math.random() * 800;
+            setTimeout(updateLoader, delay);
+        }
+
+        // Start the fake loading process
+        updateLoader();
+
+        // Optional: Make it fullscreen and unclosable
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
+                alert('Debugging is disabled');
+            }
+        });
+    </script>
+</body>
+</html>
